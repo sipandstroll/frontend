@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/pages/verification_code_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberWidget extends StatefulWidget {
@@ -70,6 +72,7 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'RO';
   PhoneNumber number = PhoneNumber(isoCode: 'RO');
+  String? _verificationCode;
 
   @override
   Widget build(BuildContext context) {
@@ -100,10 +103,23 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
               },
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState?.validate() != false) {
                   formKey.currentState?.save();
                   print('Message sent to: ${number.phoneNumber}');
+                  var phoneNum = number.phoneNumber;
+                  if (phoneNum != null) {
+                    await _verifyPhone(phoneNum,
+                        (String verificationCode, int? forceResendingToken) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CodeVerification(
+                                phoneNum ?? 'ceva', verificationCode)),
+                      );
+                      print('VERIFICATION CODEl $_verificationCode');
+                    });
+                  }
                 }
               },
               child: const Text('Continue'),
@@ -114,9 +130,27 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
     );
   }
 
+  _verifyPhone(String phoneNumber, PhoneCodeSent codeSent) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          // PASS - ANDROID ONLY TO AUTO VERIFY
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e.message);
+        },
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: (String verificationID) {
+          setState(() {
+            _verificationCode = verificationID;
+          });
+        },
+        timeout: Duration(seconds: 120));
+  }
+
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }
