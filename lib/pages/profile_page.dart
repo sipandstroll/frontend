@@ -47,8 +47,14 @@ class _ProfilePage extends State<ProfilePage> {
                         // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
                         Text(appState.user?.phoneNumber ?? 'N/A'),
                         TextButton(
-                            onPressed: () => {appState.logout()},
-                            child: const Text('LOGOUT'))
+                          onPressed: () => {appState.logout()},
+                          child: const Text(
+                            'LOGOUT',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
