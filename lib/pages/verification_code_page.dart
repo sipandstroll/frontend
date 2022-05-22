@@ -3,7 +3,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/main.dart';
+import 'package:frontend/pages/profile_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
 class CodeVerification extends StatefulWidget {
   final String phoneNumber;
@@ -104,28 +107,38 @@ class _CodeVerificationState extends State<CodeVerification> {
                       Form(
                         key: formKey,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 30),
-                          child: PinCodeTextField(
-                            appContext: context,
-                            length: 6,
-                            onChanged: (String value) async {
-                              if (value != currentCode) {
-                                currentCode = value;
-                                if (currentCode == null || value.length != 6) {
-                                  return;
-                                }
-                                var phoneAuthCredentials =
-                                    PhoneAuthProvider.credential(
-                                        verificationId: widget.verificationCode,
-                                        smsCode: value);
-                                await FirebaseAuth.instance
-                                    .signInWithCredential(phoneAuthCredentials);
-                                formKey.currentState?.validate();
-                              }
-                            },
-                          ),
-                        ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 30),
+                            child: Consumer<ApplicationState>(
+                                builder: (context, appState, _) =>
+                                    PinCodeTextField(
+                                      appContext: context,
+                                      length: 6,
+                                      onChanged: (String value) async {
+                                        if (value != currentCode) {
+                                          currentCode = value;
+                                          if (currentCode == null ||
+                                              value.length != 6) {
+                                            return;
+                                          }
+                                          var phoneAuthCredentials =
+                                              PhoneAuthProvider.credential(
+                                                  verificationId:
+                                                      widget.verificationCode,
+                                                  smsCode: value);
+                                          await FirebaseAuth.instance
+                                              .signInWithCredential(
+                                                  phoneAuthCredentials);
+                                          var idToken = await FirebaseAuth
+                                              .instance.currentUser
+                                              ?.getIdToken(true);
+                                          print('ID TOKEN $idToken');
+                                          appState.user =
+                                              FirebaseAuth.instance.currentUser;
+                                          formKey.currentState?.validate();
+                                        }
+                                      },
+                                    ))),
                       ),
                     ],
                   ),
