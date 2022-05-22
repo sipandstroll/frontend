@@ -52,6 +52,7 @@ class _ProfilePage extends State<ProfilePage> {
                   Consumer<ApplicationState>(
                     builder: (context, appState, _) => Column(
                       children: [
+                        // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
                         Text(appState.user?.phoneNumber ?? 'N/A'),
                         TextButton(
                             onPressed: () => {appState.logout()},

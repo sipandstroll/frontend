@@ -115,6 +115,7 @@ class _CodeVerificationState extends State<CodeVerification> {
                                       appContext: context,
                                       length: 6,
                                       onChanged: (String value) async {
+                                        // TODO: Refactor logic, component shouldn't know about user logging or Firebase, move logic to a business service or state might be better way
                                         if (value != currentCode) {
                                           currentCode = value;
                                           if (currentCode == null ||

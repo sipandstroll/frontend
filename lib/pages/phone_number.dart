@@ -104,6 +104,7 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
             ),
             ElevatedButton(
               onPressed: () async {
+                // TODO: Refactor logic, component shouldn't know about user logging or Firebase, move logic to a business service or state might be better way
                 if (formKey.currentState?.validate() != false) {
                   formKey.currentState?.save();
                   print('Message sent to: ${number.phoneNumber}');
