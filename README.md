@@ -17,3 +17,5 @@ samples, guidance on mobile development, and a full API reference.
 
 #TO GENERATE ANDROID SHA1
 [ANDROID SH1](https://stackoverflow.com/a/54342861/9574340)
+
+minimumSDK required is 21 on build.grade defaultConfig {}
