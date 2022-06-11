@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -71,7 +72,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text('Swipe!'),
+          // systemOverlayStyle: const SystemUiOverlayStyle(
+          //   statusBarColor: Colors.transparent,
+          // ),
+          // backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.broken_image,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: () {
+              context.go('/home/profile');
+            },
+          ),
+          title: const Center(child: Text('Tinder')),
         ),
         body: Container(
             child: Stack(children: [

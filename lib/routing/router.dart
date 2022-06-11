@@ -4,6 +4,7 @@ import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
+// TODO: REFACTOR
 class AppRouter {
   late final ApplicationState appService;
 
@@ -21,34 +22,29 @@ class AppRouter {
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
-        path: '/profile',
-        name: 'profile',
-        builder: (context, state) => const ProfilePage(),
-      ),
-      GoRoute(
         path: '/home',
         name: 'home',
+        routes: [
+          GoRoute(
+            path: 'profile',
+            name: 'profile',
+            builder: (context, state) => const ProfilePage(),
+          )
+        ],
         builder: (context, state) => const HomePage(),
       ),
     ],
     // errorBuilder: (context, state) => ErrorPage(error: state.error.toString()),
     redirect: (state) {
-      final loginLocation = state.namedLocation('login');
-      final profileLocation = state.namedLocation('profile');
-      final homeLocation = state.namedLocation('home');
+      final loggingIn = state.subloc == '/login';
 
-      final isLogedIn = appService.loginState == ApplicationLoginState.loggedIn;
+      final isLoggedIn =
+          appService.loginState == ApplicationLoginState.loggedIn;
 
-      final isGoingToLogin = state.subloc == loginLocation;
-      final isGoingToProfile = state.subloc == profileLocation;
-      final isGoingToHome = state.subloc == homeLocation;
+      // user is not logged in, if it s already on log in page do nothing, else reridrect to '/login'
+      if (!isLoggedIn) return loggingIn ? null : '/login';
+      if (loggingIn) return '/home';
 
-      // TODO: Replace duplicate strings, use enums
-      if (!isLogedIn && !isGoingToLogin) return loginLocation;
-      if (isLogedIn && !isGoingToHome && !isGoingToProfile) return homeLocation;
-      if (isLogedIn && !isGoingToProfile && !isGoingToHome) {
-        return profileLocation;
-      }
       return null;
     },
   );

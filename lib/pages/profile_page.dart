@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/main.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -21,6 +22,15 @@ class _ProfilePage extends State<ProfilePage> {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Theme.of(context).primaryColorDark,
+          ),
+          onPressed: () {
+            context.pop();
+          },
+        ),
       ),
       body: SafeArea(
         child: Container(

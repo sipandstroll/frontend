@@ -17,20 +17,21 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Theme.of(context).primaryColorDark,
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_rounded,
-              color: Theme.of(context).primaryColorDark,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(
