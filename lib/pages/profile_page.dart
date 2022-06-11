@@ -17,10 +17,6 @@ class _ProfilePage extends State<ProfilePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
-        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
@@ -31,6 +27,7 @@ class _ProfilePage extends State<ProfilePage> {
             context.pop();
           },
         ),
+        title: const Text('Profile'),
       ),
       body: SafeArea(
         child: Container(
@@ -43,19 +40,16 @@ class _ProfilePage extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Profile Page :D',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                  ),
                   const SizedBox(height: 60),
                   Consumer<ApplicationState>(
                     builder: (context, appState, _) => Column(
                       children: [
                         // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
                         Text(appState.user?.phoneNumber ?? 'N/A'),
+                        TextButton(
+                          onPressed: () => {context.goNamed('edit')},
+                          child: const Text('EDIT PROFILE'),
+                        ),
                         TextButton(
                           onPressed: () => {appState.logout()},
                           child: const Text(

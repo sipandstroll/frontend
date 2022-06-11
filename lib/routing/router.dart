@@ -1,4 +1,5 @@
 import 'package:frontend/main.dart';
+import 'package:frontend/pages/edit_profile_page.dart';
 import 'package:frontend/pages/home.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/profile_page.dart';
@@ -29,6 +30,12 @@ class AppRouter {
             path: 'profile',
             name: 'profile',
             builder: (context, state) => const ProfilePage(),
+            routes: [
+              GoRoute(
+                  path: 'edit',
+                  name: 'edit',
+                  builder: (context, state) => const EditProfilePage())
+            ],
           )
         ],
         builder: (context, state) => const HomePage(),
