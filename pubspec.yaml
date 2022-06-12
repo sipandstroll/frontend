@@ -46,6 +46,7 @@ dependencies:
   go_router: ^3.1.0
   image_picker: ^0.8.5+3
   video_player: ^2.4.4
+  firebase_storage: ^10.2.17
 
 dev_dependencies:
   flutter_test:

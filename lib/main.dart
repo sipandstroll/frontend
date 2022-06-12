@@ -5,6 +5,8 @@ import 'package:frontend/routing/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'entities/user.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -73,8 +75,22 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
+  // Future<IdentityUser> fetchIdentityUser() async {
+  //   final response = await http.get(Uri.parse())
+  // }
+
+  IdentityUser? _identityUser;
+
   User? _user;
   User? get user => _user;
+
+  IdentityUser? get identityUser => _identityUser;
+
+  set identityUser(IdentityUser? value) {
+    _identityUser = value;
+    notifyListeners();
+  }
+
   set user(User? phoneNumber) {
     _user = phoneNumber;
     notifyListeners();
