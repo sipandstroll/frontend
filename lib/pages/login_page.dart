@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/pages/phone_number.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../constants.dart';
 import '../widgets/login_button_widget.dart';
 
@@ -16,21 +16,30 @@ class LoginPage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color(0xFFED7263),
-              Color(0xFFEA4A77),
-            ],
-          ),
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: [
+                Constants.c_green,
+                Constants.c_purple,
+              ],)
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SvgPicture.asset(
-                'assets/tinder_logo.svg',
-                height: 40,
+              const ImageIcon(
+                AssetImage('assets/logo.png'),
+                color: Colors.white,
+                size: 70,
+              ),
+              const Text(
+                'sip&stroll',
+                style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 35,
+                    color: Colors.white,
+                ),
               ),
               const SizedBox(height: 80),
               Padding(

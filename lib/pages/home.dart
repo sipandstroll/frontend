@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
+import 'package:flutter/services.dart';
+import 'package:frontend/constants.dart';
+import 'package:frontend/pages/profile_page.dart';
+
+
+import 'chat.dart';
+import 'events.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,139 +18,94 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<SwipeItem> _swipeItems = <SwipeItem>[];
-  MatchEngine? _matchEngine;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<String> _names = [
-    "Red",
-    "Blue",
-    "Green",
-    "Yellow",
-    "Orange",
-    "Grey",
-    "Purple",
-    "Pink"
-  ];
-  List<Color> _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.grey,
-    Colors.purple,
-    Colors.pink
+  int selectedPage = 0;
+  final List<Widget> _widgetOptions = <Widget>[
+    EventsPage(),
+    ChatPage()
   ];
 
-  @override
-  void initState() {
-    for (int i = 0; i < _names.length; i++) {
-      _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i], color: _colors[i]),
-          likeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          nopeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          superlikeAction: () {
-            _scaffoldKey.currentState?.showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
-          }));
-    }
-
-    _matchEngine = MatchEngine(swipeItems: _swipeItems);
-    super.initState();
-  }
-
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
-          // systemOverlayStyle: const SystemUiOverlayStyle(
-          //   statusBarColor: Colors.transparent,
-          // ),
-          // backgroundColor: Colors.transparent,
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
           elevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Icons.broken_image,
-              color: Theme.of(context).primaryColorDark,
+
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness:Brightness.dark,
             ),
-            onPressed: () {
+          title: Container(
+            child: RadiantGradientMask(child: const ImageIcon(
+              AssetImage('assets/logo_nume_lowercase.png'),
+              color: Colors.white,
+              size: 200,
+            ),
+            )
+          ),
+          leading: GestureDetector(
+            child: const Icon(
+              Icons.account_circle_rounded,
+              size:50,
+              color: Colors.black,
+            ),
+            onTap: () {
               context.go('/home/profile');
             },
-          ),
-          title: const Center(child: Text('Tinder')),
-        ),
-        body: Container(
-            child: Stack(children: [
-          Container(
-            height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: SwipeCards(
-              matchEngine: _matchEngine!,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: _swipeItems[index].content.color,
-                  child: Text(
-                    _swipeItems[index].content.text,
-                    style: TextStyle(fontSize: 100),
-                  ),
-                );
-              },
-              onStackFinished: () {
-                _scaffoldKey.currentState!.showSnackBar(SnackBar(
-                  content: Text("Stack Finished"),
-                  duration: Duration(milliseconds: 500),
-                ));
-              },
-              itemChanged: (SwipeItem item, int index) {
-                print("item: ${item.content.text}, index: $index");
-              },
-              upSwipeAllowed: true,
-              fillSpace: true,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine!.currentItem?.nope();
-                  },
-                  child: Text("Nope")),
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine!.currentItem?.superLike();
-                  },
-                  child: Text("Superlike")),
-              ElevatedButton(
-                  onPressed: () {
-                    _matchEngine!.currentItem?.like();
-                  },
-                  child: Text("Like"))
-            ],
           )
-        ])));
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          iconSize: 25,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message_rounded),
+              label: 'Chat',
+            ),
+          ],
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: Constants.c_green,
+          unselectedItemColor: Constants.c_purple,
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        ),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        )
+
+    );
   }
 }
 
-class Content {
-  final String? text;
-  final Color? color;
 
-  Content({this.text, this.color});
+
+class RadiantGradientMask extends StatelessWidget {
+  RadiantGradientMask({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (bounds) => LinearGradient(
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
+        colors: [
+          Constants.c_purple,
+          Constants.c_green,
+        ],).createShader(bounds),
+      child: child,
+    );
+  }
 }

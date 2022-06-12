@@ -13,6 +13,10 @@ const kUnderlinedText = TextStyle(
 );
 
 class Constants {
-  static const Color primaryColor = Color(0xffFBFBFB);
+  static const Color c_purple = Color(0xff6B357F);
+  static const Color c_blue = Color(0xff00A1BA);
+  static const Color c_green = Color(0xff36C486);
+  static const Color c_pink = Color(0xffFF39BA);
+
   static const String otpGifImage = "assets/otp.gif";
 }

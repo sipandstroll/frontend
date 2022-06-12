@@ -17,17 +17,17 @@ class _ProfilePage extends State<ProfilePage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Theme.of(context).primaryColorDark,
-          ),
-          onPressed: () {
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.transparent,
+        leading: GestureDetector(
+          onTap: (){
             context.pop();
           },
+          child: Icon(Icons.arrow_back_ios_rounded, color: Colors.black,),
         ),
-        title: const Text('Profile'),
+        elevation: 0,
       ),
       body: SafeArea(
         child: Container(
@@ -40,6 +40,13 @@ class _ProfilePage extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Profile Page :D',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
                   const SizedBox(height: 60),
                   Consumer<ApplicationState>(
                     builder: (context, appState, _) => Column(
