@@ -100,7 +100,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Future<void> getImage(ApplicationState appState) async {
-    XFile? imageReturned = await _picker.pickImage(source: ImageSource.gallery);
+    XFile? imageReturned = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxHeight: 512,
+        maxWidth: 512,
+        imageQuality: 75);
     final path = 'files/${imageReturned!.name}';
     final file = File(imageReturned!.path);
 
