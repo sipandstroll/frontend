@@ -23,3 +23,22 @@ class Constants {
 
   static const String otpGifImage = "assets/otp.gif";
 }
+
+class RadiantGradientMask extends StatelessWidget {
+  RadiantGradientMask({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (bounds) => LinearGradient(
+        begin: Alignment.bottomLeft,
+        end: Alignment.topRight,
+        colors: [
+          Constants.c_purple,
+          Constants.c_green,
+        ],).createShader(bounds),
+      child: child,
+    );
+  }
+}

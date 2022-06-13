@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/constants.dart';
 import 'package:frontend/pages/verification_code_page.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -21,11 +22,20 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
           statusBarColor: Colors.transparent,
         ),
         backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Constants.c_green, Constants.c_purple],
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+            )
+          ),
+        ),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_rounded,
-            color: Theme.of(context).primaryColorDark,
+            color: Colors.black,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -34,27 +44,41 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
       ),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 30, top: 20, right: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'My number is',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+               Align(
+                alignment: Alignment.center,
+                child: RadiantGradientMask(
+                  child: const ImageIcon(
+                    AssetImage('assets/verification_icon.png'),
+                    color: Colors.white,
+                    size: 250,
+
                   ),
-                  const SizedBox(height: 60),
-                  PhoneNumWTest()
-                ],
+                ),
               ),
-            ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  'Verify Your Phone Number',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Text(
+                  'Please confirm your country code\n and enter your phone number',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              //const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: PhoneNumWTest(),
+              )
+
+            ],
           ),
         ),
       ),
@@ -89,6 +113,7 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
               },
               selectorConfig: const SelectorConfig(
                 selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                trailingSpace: false,
               ),
               ignoreBlank: false,
               autoValidateMode: AutovalidateMode.disabled,
@@ -98,7 +123,7 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
               formatInput: false,
               keyboardType: const TextInputType.numberWithOptions(
                   signed: true, decimal: true),
-              inputBorder: const OutlineInputBorder(),
+              inputBorder: InputBorder.none,
               onSaved: (PhoneNumber number) {
                 print('On Saved: $number');
               },
