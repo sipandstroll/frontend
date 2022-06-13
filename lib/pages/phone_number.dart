@@ -24,12 +24,11 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Constants.c_green, Constants.c_purple],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-            )
-          ),
+              gradient: LinearGradient(
+            colors: [Constants.c_green, Constants.c_purple],
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+          )),
         ),
         elevation: 0,
         leading: IconButton(
@@ -47,14 +46,13 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-               Align(
+              Align(
                 alignment: Alignment.center,
                 child: RadiantGradientMask(
                   child: const ImageIcon(
                     AssetImage('assets/verification_icon.png'),
                     color: Colors.white,
                     size: 250,
-
                   ),
                 ),
               ),
@@ -77,7 +75,6 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: PhoneNumWTest(),
               )
-
             ],
           ),
         ),
@@ -168,9 +165,11 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
         },
         codeSent: codeSent,
         codeAutoRetrievalTimeout: (String verificationID) {
-          setState(() {
-            _verificationCode = verificationID;
-          });
+          if (this.mounted) {
+            setState(() {
+              _verificationCode = verificationID;
+            });
+          }
         },
         timeout: Duration(seconds: 120));
   }

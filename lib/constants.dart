@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const baseUrl = 'http://192.168.100.14:3000';
+
 const kNormalText = TextStyle(
   fontSize: 12,
   color: Colors.white,
@@ -20,7 +22,6 @@ class Constants {
   static const Color c_red = Color(0xffED254E);
   static const Color c_yellow = Color(0xffF9DC5C);
 
-
   static const String otpGifImage = "assets/otp.gif";
 }
 
@@ -37,7 +38,8 @@ class RadiantGradientMask extends StatelessWidget {
         colors: [
           Constants.c_purple,
           Constants.c_green,
-        ],).createShader(bounds),
+        ],
+      ).createShader(bounds),
       child: child,
     );
   }

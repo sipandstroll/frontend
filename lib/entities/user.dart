@@ -5,7 +5,21 @@ class IdentityUser {
   String? name;
   String? profilePicture;
   String? email;
-  Uint32? age;
+  int? age;
 
-  IdentityUser(this.uid, this.name, this.profilePicture, this.email, this.age);
+  IdentityUser(
+      {required this.uid,
+      this.name,
+      this.profilePicture,
+      this.email,
+      this.age});
+
+  factory IdentityUser.fromJson(Map<String, dynamic> json) {
+    return IdentityUser(
+        uid: json['Uid'],
+        age: json['Age'],
+        name: json['Name'],
+        email: json['Email'],
+        profilePicture: json['ProfilePicture']);
+  }
 }

@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/routing/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
+import 'constants.dart';
 import 'entities/user.dart';
 
 void main() async {
@@ -64,9 +68,20 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void init() {
-    FirebaseAuth.instance.userChanges().listen((user) {
+    FirebaseAuth.instance.userChanges().listen((user) async {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
+        final response = await fetchIdentityUser(await user.getIdToken());
+        if (response.statusCode == 200) {
+          print(jsonDecode(response.body));
+          identityUser = IdentityUser.fromJson(jsonDecode(response.body));
+        } else {
+          final response =
+              await publishIdentityUser(user.uid, await user.getIdToken());
+          if (response.statusCode == 200) {
+            identityUser = IdentityUser.fromJson(jsonDecode(response.body));
+          }
+        }
         this.user = user;
       } else {
         _loginState = ApplicationLoginState.loggedOut;
@@ -75,9 +90,24 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
-  // Future<IdentityUser> fetchIdentityUser() async {
-  //   final response = await http.get(Uri.parse())
-  // }
+  Future<http.Response> fetchIdentityUser(String accessToken) async {
+    return http.get(Uri.parse('$baseUrl/user'), headers: {
+      'Authorization': 'Bearer $accessToken',
+    });
+  }
+
+  Future<http.Response> publishIdentityUser(
+      String uid, String accessToken) async {
+    return http.post(
+      Uri.parse('$baseUrl/user'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode({
+        "Uid": uid,
+      }),
+    );
+  }
 
   IdentityUser? _identityUser;
 
@@ -87,6 +117,7 @@ class ApplicationState extends ChangeNotifier {
   IdentityUser? get identityUser => _identityUser;
 
   set identityUser(IdentityUser? value) {
+    print(value);
     _identityUser = value;
     notifyListeners();
   }
