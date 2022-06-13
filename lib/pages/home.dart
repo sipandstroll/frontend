@@ -7,6 +7,7 @@ import 'package:frontend/constants.dart';
 import 'package:frontend/pages/profile_page.dart';
 
 
+import 'add_event_page.dart';
 import 'chat.dart';
 import 'events.dart';
 
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
   final List<Widget> _widgetOptions = <Widget>[
     EventsPage(),
+    AddEventPage(),
     ChatPage()
   ];
 
@@ -61,18 +63,39 @@ class _HomePageState extends State<HomePage> {
           iconSize: 25,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              activeIcon: ImageIcon(
+                AssetImage('assets/home_icon.png'),
+                color: Constants.c_green,
+              ),
+              icon: ImageIcon(
+                AssetImage('assets/home_icon.png'),
+              ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.message_rounded),
+              activeIcon: ImageIcon(
+                AssetImage('assets/add_icon.png'),
+                color: Constants.c_blue,
+              ),
+              icon: ImageIcon(
+                AssetImage('assets/add_icon.png'),
+              ),
+              label: 'Add Event'
+            ),
+            BottomNavigationBarItem(
+              activeIcon: ImageIcon(
+                AssetImage('assets/chat_icon.png'),
+                color: Constants.c_purple,
+              ),
+                icon: ImageIcon(
+                  AssetImage('assets/chat_icon.png'),
+                ),
               label: 'Chat',
             ),
           ],
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          selectedItemColor: Constants.c_green,
-          unselectedItemColor: Constants.c_purple,
+          unselectedItemColor: Colors.black26,
           currentIndex: _selectedIndex,
           onTap: (index) {
             setState(() {
