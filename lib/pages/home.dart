@@ -6,8 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:frontend/constants.dart';
 import 'package:frontend/pages/profile_page.dart';
 
-
-import 'add_event_page.dart';
+import 'my_events_page.dart';
 import 'chat.dart';
 import 'events.dart';
 
@@ -22,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
   final List<Widget> _widgetOptions = <Widget>[
     EventsPage(),
-    AddEventPage(),
+    MyEventsPage(),
     ChatPage()
   ];
 
@@ -31,34 +30,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.black,
-          elevation: 0,
-
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.black,
+            elevation: 0,
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
-              statusBarIconBrightness:Brightness.dark,
+              statusBarIconBrightness: Brightness.dark,
             ),
-          title: Container(
-            child: RadiantGradientMask(child: const ImageIcon(
-              AssetImage('assets/logo_nume_lowercase.png'),
-              color: Colors.white,
-              size: 200,
-            ),
-            )
-          ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.account_circle_rounded,
-              size:50,
-              color: Colors.black,
-            ),
-            onTap: () {
-              context.go('/home/profile');
-            },
-          )
-        ),
+            title: Container(
+                child: RadiantGradientMask(
+              child: const ImageIcon(
+                AssetImage('assets/logo_nume_lowercase.png'),
+                color: Colors.white,
+                size: 200,
+              ),
+            )),
+            leading: GestureDetector(
+              child: const Icon(
+                Icons.account_circle_rounded,
+                size: 50,
+                color: Colors.black,
+              ),
+              onTap: () {
+                context.go('/home/profile');
+              },
+            )),
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 25,
           items: const <BottomNavigationBarItem>[
@@ -73,23 +70,22 @@ class _HomePageState extends State<HomePage> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              activeIcon: ImageIcon(
-                AssetImage('assets/add_icon.png'),
-                color: Constants.c_blue,
-              ),
-              icon: ImageIcon(
-                AssetImage('assets/add_icon.png'),
-              ),
-              label: 'Add Event'
-            ),
+                activeIcon: ImageIcon(
+                  AssetImage('assets/add_icon.png'),
+                  color: Constants.c_blue,
+                ),
+                icon: ImageIcon(
+                  AssetImage('assets/add_icon.png'),
+                ),
+                label: 'Add Event'),
             BottomNavigationBarItem(
               activeIcon: ImageIcon(
                 AssetImage('assets/chat_icon.png'),
                 color: Constants.c_purple,
               ),
-                icon: ImageIcon(
-                  AssetImage('assets/chat_icon.png'),
-                ),
+              icon: ImageIcon(
+                AssetImage('assets/chat_icon.png'),
+              ),
               label: 'Chat',
             ),
           ],
@@ -106,11 +102,6 @@ class _HomePageState extends State<HomePage> {
         body: IndexedStack(
           index: _selectedIndex,
           children: _widgetOptions,
-        )
-
-    );
+        ));
   }
 }
-
-
-

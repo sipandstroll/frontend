@@ -100,6 +100,10 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
+  Future<String?> getAccessToken() async {
+    return await _user?.getIdToken();
+  }
+
   Future<http.Response> fetchIdentityUser(String accessToken) async {
     return http.get(Uri.parse('$baseUrl/user'), headers: {
       'Authorization': 'Bearer $accessToken',
