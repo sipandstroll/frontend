@@ -70,6 +70,8 @@ class ApplicationState extends ChangeNotifier {
   void init() {
     FirebaseAuth.instance.userChanges().listen((user) async {
       if (user != null) {
+        final idToken = await user.getIdToken();
+        print('ID TOKEN $idToken end_token');
         _loginState = ApplicationLoginState.loggedIn;
         final response = await fetchIdentityUser(await user.getIdToken());
         if (response.statusCode == 200) {
