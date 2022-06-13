@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
           )
         ),
         bottomNavigationBar: BottomNavigationBar(
+
           iconSize: 25,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

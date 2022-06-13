@@ -8,6 +8,8 @@ import 'package:frontend/pages/profile_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+
 class CodeVerification extends StatefulWidget {
   final String phoneNumber;
   final String verificationCode;
@@ -52,19 +54,37 @@ class _CodeVerificationState extends State<CodeVerification> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          centerTitle: true,
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
           ),
-          backgroundColor: Colors.transparent,
           elevation: 0,
+          title: Container(
+              child: const ImageIcon(
+                AssetImage('assets/logo_nume_lowercase.png'),
+                color: Colors.white,
+                size: 200,
+              ),
+
+          ),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_rounded,
-              color: Theme.of(context).primaryColorDark,
+              color: Colors.black,
             ),
             onPressed: () {
               Navigator.pop(context);
             },
+          ),
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Constants.c_green, Constants.c_purple],
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight
+                )),
           ),
         ),
         body: SafeArea(
