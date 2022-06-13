@@ -22,4 +22,12 @@ class IdentityUser {
         email: json['Email'],
         profilePicture: json['ProfilePicture']);
   }
+
+  Map toJson() => {
+        'Uid': uid,
+        'Name': name,
+        'Email': email,
+        'ProfilePicture': profilePicture,
+        'Age': age
+      };
 }

@@ -75,6 +75,14 @@ class ApplicationState extends ChangeNotifier {
         if (response.statusCode == 200) {
           print(jsonDecode(response.body));
           identityUser = IdentityUser.fromJson(jsonDecode(response.body));
+          if (identityUser == null) {
+            return;
+          }
+
+          IdentityUser iu =
+              IdentityUser(uid: identityUser!.uid, profilePicture: 'myProfile');
+          final response1 = await updateIdentityUser(iu);
+          print(response1.statusCode);
         } else {
           final response =
               await publishIdentityUser(user.uid, await user.getIdToken());
@@ -96,6 +104,17 @@ class ApplicationState extends ChangeNotifier {
     });
   }
 
+  Future<http.Response> updateIdentityUser(IdentityUser user) async {
+    final accessToken = await _user?.getIdToken();
+    return http.put(
+      Uri.parse('$baseUrl/user'),
+      headers: {
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(user),
+    );
+  }
+
   Future<http.Response> publishIdentityUser(
       String uid, String accessToken) async {
     return http.post(
@@ -104,7 +123,7 @@ class ApplicationState extends ChangeNotifier {
         'Authorization': 'Bearer $accessToken',
       },
       body: jsonEncode({
-        "Uid": uid,
+        "uid": uid,
       }),
     );
   }
