@@ -16,10 +16,12 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
         ),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
@@ -31,6 +33,14 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
           )),
         ),
         elevation: 0,
+        title: Container(
+          child: const ImageIcon(
+            AssetImage('assets/logo_nume_lowercase.png'),
+            color: Colors.white,
+            size: 200,
+          ),
+
+        ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_rounded,
@@ -46,22 +56,23 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.center,
+              SizedBox(height: 50,),
+              Expanded(
                 child: RadiantGradientMask(
                   child: const ImageIcon(
                     AssetImage('assets/verification_icon.png'),
                     color: Colors.white,
-                    size: 250,
+                    size: 200,
                   ),
                 ),
               ),
+              SizedBox(height: 50,),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  'Verify Your Phone Number',
-                  style: Theme.of(context).textTheme.headline5,
-                ),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    'Verify Your Phone Number',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -71,10 +82,13 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                 ),
               ),
               //const SizedBox(height: 20),
-              Container(
+              Expanded(
+                flex: 2,
+                child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: PhoneNumWTest(),
-              )
+              ),
+              ),
             ],
           ),
         ),
@@ -146,6 +160,9 @@ class _PhoneNumWTestState extends State<PhoneNumWTest> {
                   }
                 }
               },
+              style: ElevatedButton.styleFrom(
+                primary: Constants.c_purple,
+              ),
               child: const Text('Continue'),
             ),
           ],
