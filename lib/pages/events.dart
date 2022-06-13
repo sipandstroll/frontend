@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants.dart';
 
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -125,23 +126,43 @@ class _EventsPageState extends State<EventsPage>
               child:  Align(
                   alignment: Alignment.bottomCenter,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: CircleBorder(),
+                            primary: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                          ),
                           onPressed: () {
                             _matchEngine!.currentItem?.nope();
                           },
-                          child: Text("Nope")),
-                      ElevatedButton(
+                          child: ImageIcon(
+                            AssetImage('assets/X_icon.png'),
+                            color: Constants.c_red,
+                            size: 80,
+                          ),
+                      ),
+                      /*ElevatedButton(
                           onPressed: () {
                             _matchEngine!.currentItem?.superLike();
                           },
-                          child: Text("Superlike")),
+                          child: Text("Superlike")),*/
                       ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: CircleBorder(),
+                            primary: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                          ),
                           onPressed: () {
                             _matchEngine!.currentItem?.like();
                           },
-                          child: Text("Like"))
+                          child: ImageIcon(
+                            AssetImage('assets/star_icon.png'),
+                            color: Constants.c_yellow,
+                            size: 80,
+                          ),
+                      )
                     ],
                   )
               ),
