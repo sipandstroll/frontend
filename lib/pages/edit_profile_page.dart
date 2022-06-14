@@ -35,10 +35,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Constants.c_green, Constants.c_purple],
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                )),
+              colors: [Constants.c_green, Constants.c_purple],
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+            )),
           ),
           elevation: 0,
           title: Container(
@@ -47,7 +47,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
               color: Colors.white,
               size: 200,
             ),
-
           ),
           leading: IconButton(
             icon: const Icon(
@@ -62,82 +61,82 @@ class _EditProfilePageState extends State<EditProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               const Text(
                 'Edit info',
                 style: TextStyle(
-                    fontSize: 30,
+                  fontSize: 30,
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Consumer<ApplicationState>(
                 builder: (context, appState, _) => Container(
                   child: appState.identityUser!.profilePicture == null
                       ? TextButton(
-                    onPressed: () => getImage(appState),
-                    child: Text(
-                      'Pick image',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          ?.copyWith(color: Colors.blueGrey),
-                    ),
-                  )
+                          onPressed: () => getImage(appState),
+                          child: Text(
+                            'Pick image',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2
+                                ?.copyWith(color: Colors.blueGrey),
+                          ),
+                        )
                       : Column(
-                    children: [
-                      // Image.network(
-                      //   appState.identityUser?.profilePicture ?? '',
-                      //   loadingBuilder: (BuildContext context, Widget child,
-                      //       ImageChunkEvent? loadingProgress) {
-                      //     if (loadingProgress == null) return child;
-                      //     return Center(
-                      //       child: CircularProgressIndicator(
-                      //         value: loadingProgress.expectedTotalBytes !=
-                      //                 null
-                      //             ? loadingProgress.cumulativeBytesLoaded /
-                      //                 loadingProgress.expectedTotalBytes!
-                      //             : null,
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
-                      CircleAvatar(
-                        radius: 65,
-                        foregroundImage: NetworkImage(
-                            appState.identityUser?.profilePicture ?? ''
+                          children: [
+                            // Image.network(
+                            //   appState.identityUser?.profilePicture ?? '',
+                            //   loadingBuilder: (BuildContext context, Widget child,
+                            //       ImageChunkEvent? loadingProgress) {
+                            //     if (loadingProgress == null) return child;
+                            //     return Center(
+                            //       child: CircularProgressIndicator(
+                            //         value: loadingProgress.expectedTotalBytes !=
+                            //                 null
+                            //             ? loadingProgress.cumulativeBytesLoaded /
+                            //                 loadingProgress.expectedTotalBytes!
+                            //             : null,
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
+                            CircleAvatar(
+                              radius: 65,
+                              foregroundImage: NetworkImage(
+                                  appState.identityUser?.profilePicture ?? ''),
+                              backgroundColor: Constants.c_purple,
+                              child: const Icon(
+                                Icons.person_rounded,
+                                color: Constants.c_green,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => getImage(appState),
+                              child: Text(
+                                'Change image',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(color: Colors.blueGrey),
+                              ),
+                            ),
+                          ],
                         ),
-                        backgroundColor: Constants.c_purple,
-                        child: const Icon(
-                          Icons.person_rounded,
-                          color: Constants.c_green,
-                        ),
-
-                      ),
-                      TextButton(
-                        onPressed: () => getImage(appState),
-                        child: Text(
-                          'Change image',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              ?.copyWith(color: Colors.blueGrey),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               Consumer<ApplicationState>(
-                builder: (context, appState, _) => Container(
-                  child: const UserDataForm(),
-
-                ),
+                  builder: (context, appState, _) =>
+                      UserDataForm(appState: appState)),
+              SizedBox(
+                height: 50,
               ),
-              SizedBox(height: 50,),
             ],
           ),
-        )
-    );
+        ));
   }
 
   Future<void> getImage(ApplicationState appState) async {
@@ -167,76 +166,91 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 }
 
-class UserDataForm extends StatefulWidget{
-  const UserDataForm({super.key});
+class UserDataForm extends StatefulWidget {
+  final ApplicationState appState;
+  const UserDataForm({required this.appState, super.key});
 
   @override
-  UserDataFormState createState(){
+  UserDataFormState createState() {
     return UserDataFormState();
   }
 }
-class UserDataFormState extends State<UserDataForm>{
+
+class UserDataFormState extends State<UserDataForm> {
   final _formKey = GlobalKey<FormState>();
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController ageController;
 
   @override
-  Widget build(BuildContext context){
+  void initState() {
+    nameController =
+        TextEditingController(text: widget.appState.identityUser?.name);
+    emailController =
+        TextEditingController(text: widget.appState.identityUser?.email);
+    ageController = TextEditingController(
+        text: widget.appState.identityUser?.age.toString());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
-        builder: (context, appState, _) => Container(
-          child: Form(
-              key: _formKey,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
+      builder: (context, appState, _) => Container(
+        child: Form(
+            key: _formKey,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                        labelText: 'Name', labelStyle: TextStyle(fontSize: 17)),
+                    validator: (value) => null,
+                  ),
+                  TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(fontSize: 17)),
+                    validator: (value) => null,
+                  ),
+                  TextFormField(
+                    controller: ageController,
+                    decoration: const InputDecoration(
+                        labelText: 'Age', labelStyle: TextStyle(fontSize: 17)),
+                    validator: (value) {
+                      if (value != "" &&
+                          value != null &&
+                          int.parse(value) < 18) {
+                        return 'You must be 18 or older for participating to our events';
+                      }
+                      return null;
+                    },
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final age = ageController.value.text;
+                          final email = emailController.value.text;
+                          final name = nameController.value.text;
+                          IdentityUser currentUser = appState.identityUser!;
 
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
+                          if (age != "") currentUser.age = int.parse(age);
+                          if (email != "") currentUser.email = email;
+                          if (name != "") currentUser.name = name;
 
-                          labelText: 'Name',
-                          labelStyle: TextStyle(
-                              fontSize: 17
-                          )
-                      ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                              fontSize: 17
-                          )
-                      ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-
-                          labelText: 'Age',
-                          labelStyle: TextStyle(
-                              fontSize: 17
-                          )
-                      ),
-                      validator: (value) {
-                        if (int.parse(value!) < 18) {
-                          return 'You must be 18 or older for participating to our events';
+                          appState.updateIdentityUser(currentUser);
                         }
-                        return null;
+                        print(ageController.value.text);
                       },
-                    ),
-                    ElevatedButton(
-                        onPressed:() => getData(appState),
-                        child: Text('Save')
-                    )
-                  ],
-                ),
-              )
-          ),
-        ),
+                      child: Text('Save'))
+                ],
+              ),
+            )),
+      ),
     );
   }
-
-  Future <void> getData(ApplicationState appState) async {
-      //TODO implementation
-  }
-
 }
