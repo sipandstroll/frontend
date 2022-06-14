@@ -34,5 +34,5 @@ minimumSDK required is 21 on build.grade defaultConfig {}
 10. As a user, I want an easy to use app, with friendly UI, so I can find what I'm interested in very fast
 
 ##BACKLOG
-   We used Trello for project management
+   We used Trello for project management.
    We can see our board here: https://trello.com/b/L14Co9nS/mobile-app
