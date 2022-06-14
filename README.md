@@ -20,7 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 
 minimumSDK required is 21 on build.grade defaultConfig {}
 
-#USER STORIES
+##USER STORIES
 1. As a student, I want a way to find events near me, so I don't miss anything.
 2. As a student, I want to find events where people with same interests as me go, so I can meet new people.
 3. As a student, I want to get recommendations for best parties in town, so I can choose the best option every time.
@@ -33,6 +33,6 @@ minimumSDK required is 21 on build.grade defaultConfig {}
 9. As a student, I want to receive notifications when events that might interest me, so I don't miss any of them.
 10. As a user, I want an easy to use app, with friendly UI, so I can find what I'm interested in very fast
 
-#BACKLOG
+##BACKLOG
    We used Trello for project management
    We can see our board here: https://trello.com/b/L14Co9nS/mobile-app
