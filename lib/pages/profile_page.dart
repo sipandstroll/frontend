@@ -4,6 +4,8 @@ import 'package:frontend/main.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
+import '../constants.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -19,15 +21,35 @@ class _ProfilePage extends State<ProfilePage> {
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
         ),
         backgroundColor: Colors.transparent,
-        leading: GestureDetector(
-          onTap: (){
-            context.pop();
-          },
-          child: Icon(Icons.arrow_back_ios_rounded, color: Colors.black,),
+        flexibleSpace: Container(
+          decoration:  const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Constants.c_green, Constants.c_purple],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              )),
         ),
         elevation: 0,
+        title: Container(
+          child: const ImageIcon(
+            AssetImage('assets/logo_nume_lowercase.png'),
+            color: Colors.white,
+            size: 200,
+          ),
+
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_rounded,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: Container(

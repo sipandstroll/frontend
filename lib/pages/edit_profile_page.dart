@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontend/entities/user.dart';
 import 'package:frontend/main.dart';
 import 'package:go_router/go_router.dart';
@@ -26,22 +27,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+          ),
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Constants.c_green, Constants.c_purple],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                )),
+          ),
           elevation: 0,
+          title: Container(
+            child: const ImageIcon(
+              AssetImage('assets/logo_nume_lowercase.png'),
+              color: Colors.white,
+              size: 200,
+            ),
+
+          ),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back_ios_rounded,
-              color: Theme.of(context).primaryColorDark,
+              color: Colors.black,
             ),
             onPressed: () {
-              context.pop();
+              Navigator.pop(context);
             },
           ),
-          title: const Text('Edit info'),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 50,),
+              const SizedBox(height: 15,),
+              const Text(
+                'Edit info',
+                style: TextStyle(
+                    fontSize: 30,
+                ),
+              ),
+              const SizedBox(height: 20,),
               Consumer<ApplicationState>(
                 builder: (context, appState, _) => Container(
                   child: appState.identityUser!.profilePicture == null

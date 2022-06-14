@@ -22,9 +22,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedPage = 0;
   final List<Widget> _widgetOptions = <Widget>[
-    EventsPage(),
-    MyEventsPage(),
-    ChatPage()
+    const EventsPage(),
+    const MyEventsPage(),
+    const ChatPage()
   ];
 
   int _selectedIndex = 0;
