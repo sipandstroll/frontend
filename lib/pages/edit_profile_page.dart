@@ -34,69 +34,79 @@ class _EditProfilePageState extends State<EditProfilePage> {
               context.pop();
             },
           ),
-          title: const Text('Edit inf1o'),
+          title: const Text('Edit info'),
         ),
-        body: Column(
-          children: [
-            Consumer<ApplicationState>(
-              builder: (context, appState, _) => Container(
-                child: appState.identityUser!.profilePicture == null
-                    ? TextButton(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 50,),
+              Consumer<ApplicationState>(
+                builder: (context, appState, _) => Container(
+                  child: appState.identityUser!.profilePicture == null
+                      ? TextButton(
+                    onPressed: () => getImage(appState),
+                    child: Text(
+                      'Pick image',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(color: Colors.blueGrey),
+                    ),
+                  )
+                      : Column(
+                    children: [
+                      // Image.network(
+                      //   appState.identityUser?.profilePicture ?? '',
+                      //   loadingBuilder: (BuildContext context, Widget child,
+                      //       ImageChunkEvent? loadingProgress) {
+                      //     if (loadingProgress == null) return child;
+                      //     return Center(
+                      //       child: CircularProgressIndicator(
+                      //         value: loadingProgress.expectedTotalBytes !=
+                      //                 null
+                      //             ? loadingProgress.cumulativeBytesLoaded /
+                      //                 loadingProgress.expectedTotalBytes!
+                      //             : null,
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                      CircleAvatar(
+                        radius: 65,
+                        // TODO: LOADER GIF
+                        // backgroundImage: AssetImage('assets/loading.gif'),
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: NetworkImage(
+                              appState.identityUser?.profilePicture ?? ''),
+                        ),
+                      ),
+                      TextButton(
                         onPressed: () => getImage(appState),
                         child: Text(
-                          'Pick image',
+                          'Change image',
                           style: Theme.of(context)
                               .textTheme
                               .subtitle2
                               ?.copyWith(color: Colors.blueGrey),
                         ),
-                      )
-                    : Column(
-                        children: [
-                          // Image.network(
-                          //   appState.identityUser?.profilePicture ?? '',
-                          //   loadingBuilder: (BuildContext context, Widget child,
-                          //       ImageChunkEvent? loadingProgress) {
-                          //     if (loadingProgress == null) return child;
-                          //     return Center(
-                          //       child: CircularProgressIndicator(
-                          //         value: loadingProgress.expectedTotalBytes !=
-                          //                 null
-                          //             ? loadingProgress.cumulativeBytesLoaded /
-                          //                 loadingProgress.expectedTotalBytes!
-                          //             : null,
-                          //       ),
-                          //     );
-                          //   },
-                          // ),
-                          CircleAvatar(
-                            radius: 65,
-                            // TODO: LOADER GIF
-                            // backgroundImage: AssetImage('assets/loading.gif'),
-                            child: CircleAvatar(
-                              radius: 65,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: NetworkImage(
-                                  appState.identityUser?.profilePicture ?? ''),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => getImage(appState),
-                            child: Text(
-                              'Change image',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(color: Colors.blueGrey),
-                            ),
-                          ),
-                        ],
                       ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            // TODO: ADD Profile Info Edit features
-          ],
-        ));
+              Consumer<ApplicationState>(
+                builder: (context, appState, _) => Container(
+                  child: const UserDataForm(),
+
+                ),
+              ),
+              SizedBox(height: 50,),
+            ],
+          ),
+        )
+    );
   }
 
   Future<void> getImage(ApplicationState appState) async {
@@ -124,4 +134,78 @@ class _EditProfilePageState extends State<EditProfilePage> {
       image = imageReturned;
     });
   }
+}
+
+class UserDataForm extends StatefulWidget{
+  const UserDataForm({super.key});
+
+  @override
+  UserDataFormState createState(){
+    return UserDataFormState();
+  }
+}
+class UserDataFormState extends State<UserDataForm>{
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context){
+    return Consumer<ApplicationState>(
+        builder: (context, appState, _) => Container(
+          child: Form(
+              key: _formKey,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+
+                          labelText: 'Name',
+                          labelStyle: TextStyle(
+                              fontSize: 17
+                          )
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                              fontSize: 17
+                          )
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+
+                          labelText: 'Age',
+                          labelStyle: TextStyle(
+                              fontSize: 17
+                          )
+                      ),
+                      validator: (value) {
+                        if (int.parse(value!) < 18) {
+                          return 'You must be 18 or older for participating to our events';
+                        }
+                        return null;
+                      },
+                    ),
+                    ElevatedButton(
+                        onPressed:() => getData(appState),
+                        child: Text('Save')
+                    )
+                  ],
+                ),
+              )
+          ),
+        ),
+    );
+  }
+
+  Future <void> getData(ApplicationState appState) async {
+      //TODO implementation
+  }
+
 }
