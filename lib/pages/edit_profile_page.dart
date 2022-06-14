@@ -9,6 +9,8 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../constants.dart';
+
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
 
@@ -73,14 +75,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       // ),
                       CircleAvatar(
                         radius: 65,
-                        // TODO: LOADER GIF
-                        // backgroundImage: AssetImage('assets/loading.gif'),
-                        child: CircleAvatar(
-                          radius: 65,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(
-                              appState.identityUser?.profilePicture ?? ''),
+                        foregroundImage: NetworkImage(
+                            appState.identityUser?.profilePicture ?? ''
                         ),
+                        backgroundColor: Constants.c_purple,
+                        child: const Icon(
+                          Icons.person_rounded,
+                          color: Constants.c_green,
+                        ),
+
                       ),
                       TextButton(
                         onPressed: () => getImage(appState),

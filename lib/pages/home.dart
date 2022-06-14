@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 import 'package:flutter/services.dart';
@@ -47,10 +49,21 @@ class _HomePageState extends State<HomePage> {
               ),
             )),
             leading: GestureDetector(
-              child: const Icon(
-                Icons.account_circle_rounded,
-                size: 50,
-                color: Colors.black,
+              child: Consumer<ApplicationState>(
+                builder: (context, appState, _) => Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: CircleAvatar(
+                    foregroundImage: NetworkImage(
+                        appState.identityUser?.profilePicture ?? ''
+                    ),
+                    backgroundColor: Constants.c_purple,
+                    child: const Icon(
+                      Icons.person_rounded,
+                      color: Constants.c_green,
+                    ),
+
+                  ),
+                ),
               ),
               onTap: () {
                 context.go('/home/profile');
