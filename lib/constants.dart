@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const baseUrl = 'http://192.168.0.199:3000';
+const baseUrl = 'https://mds-project-349316.lm.r.appspot.com/';
 
 const kNormalText = TextStyle(
   fontSize: 12,
