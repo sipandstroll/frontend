@@ -50,27 +50,31 @@ class _HomePageState extends State<HomePage> {
             )),
             leading: GestureDetector(
               child: Consumer<ApplicationState>(
-                builder: (context, appState, _) => Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: CircleAvatar(
-                    foregroundImage: NetworkImage(
-                        appState.identityUser?.profilePicture ?? ''
-                    ),
-                    backgroundColor: Constants.c_purple,
-                    child: const Icon(
-                      Icons.person_rounded,
-                      color: Constants.c_green,
-                    ),
-
-                  ),
-                ),
-              ),
+                  builder: (context, appState, _) => (appState
+                                  .identityUser?.profilePicture !=
+                              null &&
+                          appState.identityUser?.profilePicture != '')
+                      ? Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: CircleAvatar(
+                            foregroundImage: NetworkImage(
+                                appState.identityUser?.profilePicture ?? ''),
+                            backgroundColor: Constants.c_purple,
+                            child: const Icon(
+                              Icons.person_rounded,
+                              color: Constants.c_green,
+                            ),
+                          ),
+                        )
+                      : const Icon(
+                          Icons.person_rounded,
+                          color: Constants.c_green,
+                        )),
               onTap: () {
                 context.go('/home/profile');
               },
             )),
         bottomNavigationBar: BottomNavigationBar(
-
           iconSize: 25,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

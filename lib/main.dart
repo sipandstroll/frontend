@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/entities/event.dart';
 import 'package:frontend/routing/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -81,8 +82,7 @@ class ApplicationState extends ChangeNotifier {
             return;
           }
 
-          IdentityUser iu =
-              IdentityUser(uid: identityUser!.uid, profilePicture: 'myProfile');
+          IdentityUser iu = IdentityUser(uid: identityUser!.uid);
           final response1 = await updateIdentityUser(iu);
           print(response1.statusCode);
         } else {
@@ -132,6 +132,16 @@ class ApplicationState extends ChangeNotifier {
         "uid": uid,
       }),
     );
+  }
+
+  Future<http.Response> publishNewEvent(Event event) async {
+    final accessToken = await user!.getIdToken();
+    notifyListeners();
+    return http.post(Uri.parse('$baseUrl/event'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(event.toJson()));
   }
 
   IdentityUser? _identityUser;

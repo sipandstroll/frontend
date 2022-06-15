@@ -1,14 +1,14 @@
 import 'package:frontend/entities/user.dart';
 
 class Event {
-  int id;
+  int? id;
   IdentityUser owner;
   String picture;
   String title;
   String? description;
 
   Event(
-      {required this.id,
+      {this.id,
       required this.owner,
       required this.picture,
       required this.title,
@@ -24,7 +24,6 @@ class Event {
   }
 
   Map toJson() => {
-        'Id': id,
         'UserUid': owner.uid,
         'Picture': picture,
         'Title': title,
