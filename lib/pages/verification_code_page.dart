@@ -71,7 +71,7 @@ class _CodeVerificationState extends State<CodeVerification> {
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_rounded,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);

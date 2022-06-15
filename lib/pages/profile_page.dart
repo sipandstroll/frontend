@@ -44,7 +44,7 @@ class _ProfilePage extends State<ProfilePage> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_rounded,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -53,47 +53,94 @@ class _ProfilePage extends State<ProfilePage> {
       ),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.only(left: 30, top: 20, right: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Profile Page :D',
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
+          padding: const EdgeInsets.only(left: 30, top: 20, right: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Profile',
+                  style: TextStyle(
+                      fontSize: 25
                   ),
-                  const SizedBox(height: 60),
-                  Consumer<ApplicationState>(
-                    builder: (context, appState, _) => Column(
-                      children: [
-                        // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
-                        Text(appState.user?.phoneNumber ?? 'N/A'),
-                        TextButton(
-                          onPressed: () => {context.goNamed('edit')},
-                          child: const Text('EDIT PROFILE'),
-                        ),
-                        TextButton(
-                          onPressed: () => {appState.logout()},
-                          child: const Text(
-                            'LOGOUT',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+
+              Consumer<ApplicationState>(
+                builder: (context, appState, _) => Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 65,
+                      foregroundImage: NetworkImage(
+                          appState.identityUser?.profilePicture ?? ''
+                      ),
+                      backgroundColor: Constants.c_blue,
+                      child: const Icon(
+                        Icons.person_rounded,
+                        color: Colors.white54,
+                        size: 70,
+                      ),
+
+                    ),
+                    SizedBox(height: 10,),
+                    const Text(
+                      'Username:',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    appState.user?.displayName != '' ? Text(appState.user?.displayName ?? 'N/A') :
+                    Text('unknown'),
+                    SizedBox(height: 10,),
+                    const Text(
+                      'Email:',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    appState.user?.email != '' ? Text(appState.user?.email ?? 'N/A') :
+                    Text('unknown'),
+                    SizedBox(height: 10,),
+                    const Text(
+                      'Age:',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    Text('unknown'),
+                    SizedBox(height: 10,),
+                    const Text(
+                      'Phone Number:',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
+
+                    Text(appState.user?.phoneNumber ?? 'N/A'),
+                    TextButton(
+                      onPressed: () => {context.goNamed('edit')},
+                      child: const Text('EDIT PROFILE'),
+                    ),
+                    TextButton(
+                      onPressed: () => {appState.logout()},
+                      child: const Text(
+                        'LOGOUT',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
