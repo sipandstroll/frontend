@@ -144,6 +144,19 @@ class ApplicationState extends ChangeNotifier {
         body: jsonEncode(event.toJson()));
   }
 
+  Future<List<Event>?> getEvents() async {
+    final accessToken = await user!.getIdToken();
+    final response = await http.get(Uri.parse('$baseUrl/event'), headers: {
+      'Authorization': 'Bearer $accessToken',
+    });
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+
+      return jsonResponse.map((event) => Event.fromJson(event)).toList();
+    }
+    return null;
+  }
+
   IdentityUser? _identityUser;
 
   User? _user;
