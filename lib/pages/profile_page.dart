@@ -25,12 +25,12 @@ class _ProfilePage extends State<ProfilePage> {
         ),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
-          decoration:  const BoxDecoration(
+          decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Constants.c_green, Constants.c_purple],
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-              )),
+            colors: [Constants.c_green, Constants.c_purple],
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+          )),
         ),
         elevation: 0,
         title: Container(
@@ -39,7 +39,6 @@ class _ProfilePage extends State<ProfilePage> {
             color: Colors.white,
             size: 200,
           ),
-
         ),
         leading: IconButton(
           icon: const Icon(
@@ -61,65 +60,68 @@ class _ProfilePage extends State<ProfilePage> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Profile',
-                  style: TextStyle(
-                      fontSize: 25
-                  ),
+                  style: TextStyle(fontSize: 25),
                 ),
               ),
-
               Consumer<ApplicationState>(
                 builder: (context, appState, _) => Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 65,
-                      foregroundImage: NetworkImage(
-                          appState.identityUser?.profilePicture ?? ''
-                      ),
-                      backgroundColor: Constants.c_blue,
-                      child: const Icon(
-                        Icons.person_rounded,
-                        color: Colors.white54,
-                        size: 70,
-                      ),
-
+                    (appState.identityUser?.profilePicture != null &&
+                            appState.identityUser?.profilePicture != '')
+                        ? CircleAvatar(
+                            radius: 65,
+                            foregroundImage: NetworkImage(
+                                appState.identityUser?.profilePicture ?? ''),
+                            backgroundColor: Constants.c_blue,
+                            child: const Icon(
+                              Icons.person_rounded,
+                              color: Colors.white54,
+                              size: 70,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.person_rounded,
+                            color: Constants.c_green,
+                          ),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
                     const Text(
                       'Username:',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
-                    appState.user?.displayName != '' ? Text(appState.user?.displayName ?? 'N/A') :
-                    Text('unknown'),
-                    SizedBox(height: 10,),
+                    appState.user?.displayName != ''
+                        ? Text(appState.user?.displayName ?? 'N/A')
+                        : Text('unknown'),
+                    SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       'Email:',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
-                    appState.user?.email != '' ? Text(appState.user?.email ?? 'N/A') :
-                    Text('unknown'),
-                    SizedBox(height: 10,),
+                    appState.user?.email != ''
+                        ? Text(appState.user?.email ?? 'N/A')
+                        : Text('unknown'),
+                    SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       'Age:',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     Text('unknown'),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       'Phone Number:',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                     // TODO: Remap user object to a wrapper ( onion architecture ), agnostic of firebase model
 
