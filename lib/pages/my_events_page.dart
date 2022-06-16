@@ -34,7 +34,7 @@ class MyEventsPage extends StatelessWidget {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       // return Text('Result: ${jsonEncode(snapshot.data)}');
-                      if (snapshot.data == null) {
+                      if (snapshot.data == null || snapshot.data?.length == 0) {
                         return Text('0 events');
                       }
                       return SizedBox(
