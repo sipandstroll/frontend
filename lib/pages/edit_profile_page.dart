@@ -116,6 +116,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                             TextButton(
                               onPressed: () => getImage(appState),
+
                               child: Text(
                                 'Change image',
                                 style: Theme.of(context)
@@ -246,6 +247,9 @@ class UserDataFormState extends State<UserDataForm> {
                         }
                         print(ageController.value.text);
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: Constants.c_purple
+                      ),
                       child: Text('Save'))
                 ],
               ),

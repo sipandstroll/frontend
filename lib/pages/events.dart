@@ -77,6 +77,7 @@ class _EventsPageState extends State<EventsPage> {
                               return Container(
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
+                                    fit: BoxFit.fill,
                                     image: NetworkImage(
                                         _swipeItems[index].content.picture),
                                   ),
@@ -93,11 +94,18 @@ class _EventsPageState extends State<EventsPage> {
                                     )
                                   ],
                                 ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  _swipeItems[index].content.title,
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                alignment: Alignment.topCenter,
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Text(
+                                    _swipeItems[index].content.title,
+                                    style: TextStyle(
+                                        fontSize: 200,
+                                      backgroundColor: Colors.white54,
+
+                                    ),
+                                  ),
+                                )
                               );
                             },
                             onStackFinished: () {

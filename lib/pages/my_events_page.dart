@@ -20,55 +20,72 @@ class MyEventsPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Consumer<ApplicationState>(
-        builder: (context, appState, _) => Column(
-          children: [
-            FutureBuilder<List<Event>?>(
-              future: getMyEvents(appState),
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Event>?> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Text('Loading....');
-                  default:
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      // return Text('Result: ${jsonEncode(snapshot.data)}');
-                      if (snapshot.data == null || snapshot.data?.length == 0) {
-                        return Text('0 events');
+        builder: (context, appState, _) => Center(
+          child: Column(
+            children: [
+              SizedBox(height: 60,),
+              FutureBuilder<List<Event>?>(
+                future: getMyEvents(appState),
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<Event>?> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const Text('Loading....');
+                    default:
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        // return Text('Result: ${jsonEncode(snapshot.data)}');
+                        if (snapshot.data == null || snapshot.data?.length == 0) {
+                          return Text(
+                            '0 events',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          height: 400,
+                          child: ListView.builder(
+                            itemBuilder: (context, i) {
+                              // ToDo: Design a card with picture, title, description ( nullable )
+                              return EventWidget(snapshot.data![i]);
+                            },
+                            itemCount: snapshot.data?.length,
+                          ),
+                        );
                       }
-                      return SizedBox(
-                        height: 400,
-                        child: ListView.builder(
-                          itemBuilder: (context, i) {
-                            // ToDo: Design a card with picture, title, description ( nullable )
-                            return EventWidget(snapshot.data![i]);
-                          },
-                          itemCount: snapshot.data?.length,
-                        ),
-                      );
-                    }
-                }
-              },
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  IdentityUser? identityUser = appState.identityUser;
-                  if (identityUser == null) {
-                    return;
                   }
-                  showMaterialModalBottomSheet(
-                    context: context,
-                    builder: (context) => FractionallySizedBox(
-                      child:
-                          AddNewEvent(appState.publishNewEvent, identityUser),
-                      heightFactor: 0.7,
-                    ),
-                  );
                 },
-                child: const Text('Add new event'))
-          ],
-        ),
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Constants.c_purple
+                  ),
+                  onPressed: () {
+                    IdentityUser? identityUser = appState.identityUser;
+                    if (identityUser == null) {
+                      return;
+                    }
+                    showMaterialModalBottomSheet(
+                      context: context,
+                      builder: (context) => FractionallySizedBox(
+                        child:
+                        AddNewEvent(appState.publishNewEvent, identityUser),
+                        heightFactor: 0.7,
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Add new event',
+                    style: TextStyle(
+                        fontSize: 20
+                    ),
+                  )
+              )
+            ],
+          ),
+        )
       ),
     );
   }
@@ -169,6 +186,9 @@ class _AddNewEventState extends State<AddNewEvent> {
                         onPressed: () {
                           getImage();
                         },
+                        style: ElevatedButton.styleFrom(
+                          primary: Constants.c_purple
+                        ),
                         child: const Text('Pick image'),
                       )
                     : Column(
@@ -181,13 +201,18 @@ class _AddNewEventState extends State<AddNewEvent> {
                             onPressed: () {
                               getImage();
                             },
+                            style: ElevatedButton.styleFrom(
+                                primary: Constants.c_purple
+                            ),
                             child: const Text('Change image'),
                           )
                         ],
                       ),
                 ElevatedButton(
                     onPressed: handleFormSend,
-                    // TODO: Different color
+                    style: ElevatedButton.styleFrom(
+                        primary: Constants.c_purple
+                    ),
                     child: Center(child: Text('Publish Event')))
               ],
             )),
